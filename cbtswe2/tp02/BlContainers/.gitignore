@@ -1,0 +1,11 @@
+# Build
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# appsettings com senha (opcional, veja nota abaixo)
+# appsettings.Development.json

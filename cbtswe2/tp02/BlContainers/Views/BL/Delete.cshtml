@@ -1,0 +1,21 @@
+@model BL
+@{
+    ViewData["Title"] = "Excluir BL";
+}
+<h2>Excluir BL</h2>
+<div class="alert alert-warning">
+    <p class="mb-0">Tem certeza que deseja excluir o BL <strong>@Model.Numero</strong>?</p>
+    @if (Model.Containers.Any())
+
+    {
+        <p class="mt-2 mb-0">
+            <strong>Atenção:</strong> este BL possui @Model.Containers.Count container(s)
+            e não poderá ser excluído até que eles sejam removidos.
+        </p>
+    }
+</div>
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="ID" />
+    <button type="submit" class="btn btn-danger">Excluir</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+</form>

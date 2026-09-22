@@ -1,0 +1,19 @@
+@model BL
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="mb-3">
+    <label asp-for="Numero" class="form-label"></label>
+    <input asp-for="Numero" class="form-control" />
+    <span asp-validation-for="Numero" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="Consignee" class="form-label"></label>
+    <input asp-for="Consignee" class="form-control" />
+    <span asp-validation-for="Consignee" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="Navio" class="form-label"></label>
+    <input asp-for="Navio" class="form-control" />
+    <span asp-validation-for="Navio" class="text-danger"></span>
+</div>
+<button type="submit" class="btn btn-primary">Salvar</button>
+<a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>

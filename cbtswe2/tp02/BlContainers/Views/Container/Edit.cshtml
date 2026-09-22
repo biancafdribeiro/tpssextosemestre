@@ -1,0 +1,9 @@
+@model Container
+@{ ViewData["Title"] = "Editar Container"; }
+<h2>Editar Container</h2>
+<div class="card shadow-sm"><div class="card-body">
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="ID" />
+        <partial name="_Form" model="Model" />
+    </form>
+</div></div>

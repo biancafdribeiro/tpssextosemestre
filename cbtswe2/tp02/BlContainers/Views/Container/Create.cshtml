@@ -1,0 +1,6 @@
+@model Container
+@{ ViewData["Title"] = "Novo Container"; }
+<h2>Novo Container</h2>
+<div class="card shadow-sm"><div class="card-body">
+    <form asp-action="Create" method="post"><partial name="_Form" model="Model" /></form>
+</div></div>

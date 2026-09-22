@@ -1,0 +1,9 @@
+@model BL
+@{ ViewData["Title"] = "Editar BL"; }
+<h2>Editar BL</h2>
+<div class="card shadow-sm"><div class="card-body">
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="ID" />
+        <partial name="_Form" model="Model" />
+    </form>
+</div></div>

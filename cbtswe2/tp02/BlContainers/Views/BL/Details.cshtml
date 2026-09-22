@@ -1,0 +1,27 @@
+@model BL
+@{ ViewData["Title"] = "Detalhes do BL"; }
+<h2>BL @Model.Numero</h2>
+<div class="card shadow-sm mb-4"><div class="card-body">
+    <dl class="row mb-0">
+        <dt class="col-sm-3">ID</dt><dd class="col-sm-9">@Model.ID</dd>
+        <dt class="col-sm-3">Número</dt><dd class="col-sm-9">@Model.Numero</dd>
+        <dt class="col-sm-3">Consignee</dt><dd class="col-sm-9">@Model.Consignee</dd>
+        <dt class="col-sm-3">Navio</dt><dd class="col-sm-9">@Model.Navio</dd>
+    </dl>
+</div></div>
+<div class="d-flex justify-content-between align-items-center mb-2">
+    <h4>Containers</h4>
+    <a asp-controller="Container" asp-action="Create" asp-route-blId="@Model.ID" class="btn btn-sm btn-success">Adicionar container</a>
+</div>
+<table class="table bg-white shadow-sm">
+    <thead class="table-light"><tr><th>Número</th><th>Tipo</th><th>Tamanho</th><th></th></tr></thead>
+    <tbody>
+    @foreach (var c in Model.Containers)
+    {
+        <tr><td>@c.Numero</td><td>@c.Tipo</td><td>@c.Tamanho'</td>
+            <td class="text-end"><a asp-controller="Container" asp-action="Edit" asp-route-id="@c.ID" class="btn btn-sm btn-outline-primary">Editar</a></td></tr>
+    }
+    @if (!Model.Containers.Any()) { <tr><td colspan="4" class="text-muted text-center">Sem containers.</td></tr> }
+    </tbody>
+</table>
+<a asp-action="Index" class="btn btn-outline-secondary">Voltar</a>

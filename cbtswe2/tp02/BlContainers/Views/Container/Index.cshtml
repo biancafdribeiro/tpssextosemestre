@@ -1,0 +1,28 @@
+@model IEnumerable<Container>
+@{ ViewData["Title"] = "Containers"; }
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Containers</h2>
+    <a asp-action="Create" class="btn btn-secondary"><i class="bi bi-plus-lg"></i> Novo Container</a>
+</div>
+<div class="table-responsive bg-white shadow-sm rounded">
+<table class="table table-hover align-middle mb-0">
+    <thead class="table-light">
+        <tr><th>ID</th><th>Número</th><th>Tipo</th><th>Tamanho</th><th>BL</th><th class="text-end">Ações</th></tr>
+    </thead>
+    <tbody>
+    @foreach (var c in Model)
+    {
+        <tr>
+            <td>@c.ID</td><td>@c.Numero</td><td>@c.Tipo</td><td>@c.Tamanho'</td>
+            <td><a asp-controller="BL" asp-action="Details" asp-route-id="@c.BLId">@c.BL?.Numero</a></td>
+            <td class="text-end">
+                <a asp-action="Details" asp-route-id="@c.ID" class="btn btn-sm btn-outline-secondary">Detalhes</a>
+                <a asp-action="Edit" asp-route-id="@c.ID" class="btn btn-sm btn-outline-primary">Editar</a>
+                <a asp-action="Delete" asp-route-id="@c.ID" class="btn btn-sm btn-outline-danger">Excluir</a>
+            </td>
+        </tr>
+    }
+    @if (!Model.Any()) { <tr><td colspan="6" class="text-center text-muted py-4">Nenhum container cadastrado.</td></tr> }
+    </tbody>
+</table>
+</div>

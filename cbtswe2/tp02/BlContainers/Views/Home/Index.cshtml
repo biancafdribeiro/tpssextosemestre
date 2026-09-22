@@ -1,0 +1,8 @@
+@{ ViewData["Title"] = "Início"; }
+<div class="p-5 mb-4 bg-white rounded shadow-sm">
+    <h1 class="display-6">Controle de BL e Containers</h1>
+    <p class="lead">Cadastre BLs (Bill of Lading) e associe containers a eles.</p>
+    <a class="btn btn-primary me-2" asp-controller="BL" asp-action="Index">Gerenciar BLs</a>
+    <a class="btn btn-secondary me-2" asp-controller="Container" asp-action="Index">Gerenciar Containers</a>
+    <a class="btn btn-outline-dark" asp-controller="Relatorio" asp-action="Index">Ver Relatório</a>
+</div>

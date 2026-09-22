@@ -1,0 +1,65 @@
+﻿:root {
+    --bs-primary: #e91e8c;
+    --bs-primary-rgb: 233, 30, 140;
+    --bs-link-color: #e91e8c;
+    --bs-link-color-rgb: 233, 30, 140;
+    --bs-link-hover-color: #c2177a;
+    --bs-link-hover-color-rgb: 194, 23, 122;
+}
+
+/* Fundo da página */
+body.bg-light {
+    background-color: #fff0f6 !important;
+}
+
+/* Botões principais */
+.btn-primary {
+    --bs-btn-bg: #e91e8c;
+    --bs-btn-border-color: #e91e8c;
+    --bs-btn-hover-bg: #c2177a;
+    --bs-btn-hover-border-color: #c2177a;
+    --bs-btn-active-bg: #a91368;
+    --bs-btn-active-border-color: #a91368;
+    --bs-btn-disabled-bg: #e91e8c;
+    --bs-btn-disabled-border-color: #e91e8c;
+}
+
+/* Botões de contorno */
+.
+-outline-primary {
+    --bs-btn-color: #e91e8c;
+    --bs-btn-border-color: #e91e8c;
+    --bs-btn-hover-bg: #e91e8c;
+    --bs-btn-hover-border-color: #e91e8c;
+    --bs-btn-active-bg: #c2177a;
+    --bs-btn-active-border-color: #c2177a;
+}
+
+/* Campos de formulário ao focar */
+.form-control:focus, .form-select:focus {
+    border-color: #f06bb2;
+    box-shadow: 0 0 0 .25rem rgba(233, 30, 140, .25);
+}
+
+/* Cabeçalho das tabelas */
+.table-light {
+    --bs-table-bg: #fde4f0;
+}
+
+/* Menu com texto bem visível */
+.navbar .nav-link {
+    color: rgba(255, 255, 255, 0.95) !important;
+}
+
+    .navbar .nav-link:hover {
+        color: #ffffff !important;
+    }
+
+.navbar-brand {
+    color: #ffffff !important;
+}
+
+/* Mais espaço nas células das tabelas */
+.table > :not(caption) > * > * {
+    padding: 0.75rem 1rem;
+}

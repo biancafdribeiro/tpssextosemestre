@@ -1,0 +1,28 @@
+@model IEnumerable<BL>
+@{ ViewData["Title"] = "BLs"; }
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>BLs</h2>
+    <a asp-action="Create" class="btn btn-secondary"><i class="bi bi-plus-lg"></i> Novo BL</a>
+</div>
+<div class="table-responsive bg-white shadow-sm rounded">
+<table class="table table-hover align-middle mb-0">
+    <thead class="table-light">
+        <tr><th>ID</th><th>Número</th><th>Consignee</th><th>Navio</th><th>Containers</th><th class="text-end">Ações</th></tr>
+    </thead>
+    <tbody>
+    @foreach (var b in Model)
+    {
+        <tr>
+            <td>@b.ID</td><td>@b.Numero</td><td>@b.Consignee</td><td>@b.Navio</td>
+                    <td><span class="badge bg-primary">@b.Containers.Count</span></td>
+            <td class="text-end">
+                <a asp-action="Details" asp-route-id="@b.ID" class="btn btn-sm btn-outline-secondary">Detalhes</a>
+                <a asp-action="Edit" asp-route-id="@b.ID" class="btn btn-sm btn-outline-primary">Editar</a>
+                <a asp-action="Delete" asp-route-id="@b.ID" class="btn btn-sm btn-outline-danger">Excluir</a>
+            </td>
+        </tr>
+    }
+    @if (!Model.Any()) { <tr><td colspan="6" class="text-center text-muted py-4">Nenhum BL cadastrado.</td></tr> }
+    </tbody>
+</table>
+</div>

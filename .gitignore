@@ -1,7 +1,16 @@
 .vs/
+
 bin/
+
 obj/
+
 *.user
+
 *.suo
+
 Debug/
+
 Release/
+
+# Configurações locais com credenciais
+appsettings.Development.json

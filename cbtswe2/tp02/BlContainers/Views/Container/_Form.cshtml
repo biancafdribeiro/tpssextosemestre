@@ -1,0 +1,28 @@
+@model Container
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="mb-3">
+    <label asp-for="BLId" class="form-label"></label>
+    <select asp-for="BLId" asp-items="(SelectList)ViewBag.BLs" class="form-select">
+        <option value="">-- Selecione um BL --</option>
+    </select>
+    <span asp-validation-for="BLId" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="Numero" class="form-label"></label>
+    <input asp-for="Numero" class="form-control" maxlength="11" placeholder="Ex.: MSKU1234567" />
+    <span asp-validation-for="Numero" class="text-danger"></span>
+</div>
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <label asp-for="Tipo" class="form-label"></label>
+        <select asp-for="Tipo" asp-items="(SelectList)ViewBag.Tipos" class="form-select"><option value="">-- Selecione --</option></select>
+        <span asp-validation-for="Tipo" class="text-danger"></span>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label asp-for="Tamanho" class="form-label"></label>
+        <select asp-for="Tamanho" asp-items="(SelectList)ViewBag.Tamanhos" class="form-select"><option value="">-- Selecione --</option></select>
+        <span asp-validation-for="Tamanho" class="text-danger"></span>
+    </div>
+</div>
+<button type="submit" class="btn btn-primary">Salvar</button>
+<a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>

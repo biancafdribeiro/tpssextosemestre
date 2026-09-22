@@ -1,0 +1,6 @@
+@model BL
+@{ ViewData["Title"] = "Novo BL"; }
+<h2>Novo BL</h2>
+<div class="card shadow-sm"><div class="card-body">
+    <form asp-action="Create" method="post"><partial name="_Form" model="Model" /></form>
+</div></div>
