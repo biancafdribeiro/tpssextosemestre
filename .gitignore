@@ -1,16 +1,22 @@
+# Visual Studio
 .vs/
-
-bin/
-
-obj/
-
 *.user
-
 *.suo
 
+# Build
+bin/
+obj/
 Debug/
-
 Release/
 
 # Configurações locais com credenciais
 appsettings.Development.json
+
+# MAUI / mobile
+*.ap_
+*.apk
+*.aab
+*.ipa
+
+# Outros
+.DS_Store
