@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TarefasApp.Views.TarefaDetailPage"
+             Title="Detalhes da Tarefa"
+             BackgroundColor="{StaticResource Background}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="16">
+
+            <Frame Padding="18" CornerRadius="14" BackgroundColor="{StaticResource CardBackground}" HasShadow="True">
+                <VerticalStackLayout Spacing="14">
+
+                    <Label Text="{Binding Titulo}"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource TextPrimary}" />
+
+                    <Label Text="{Binding Descricao}"
+                           FontSize="16"
+                           TextColor="{StaticResource TextSecondary}" />
+
+                    <BoxView HeightRequest="1" Color="#E0E0E0" />
+
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="4">
+                        <Label Grid.Row="0" Grid.Column="0" Text="Criada em" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}" />
+                        <Label Grid.Row="0" Grid.Column="1" Text="Prioridade" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}" />
+
+                        <Label Grid.Row="1" Grid.Column="0" Text="{Binding DataCriacao, StringFormat='{0:dd/MM/yyyy HH:mm}'}" TextColor="{StaticResource TextSecondary}" />
+                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding Prioridade}" TextColor="{StaticResource TextSecondary}" />
+
+                        <Label Grid.Row="2" Grid.Column="0" Text="Última atualização" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}" Margin="0,10,0,0" />
+                        <Label Grid.Row="3" Grid.Column="0" Text="{Binding DataAtualizacao, StringFormat='{0:dd/MM/yyyy HH:mm}'}" TextColor="{StaticResource TextSecondary}" />
+                    </Grid>
+
+                </VerticalStackLayout>
+            </Frame>
+
+            <Button Text="Editar" Clicked="OnEditarClicked" />
+            <Button Text="Excluir" BackgroundColor="#E53935" Clicked="OnExcluirClicked" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

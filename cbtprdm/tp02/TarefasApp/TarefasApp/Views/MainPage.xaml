@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:TarefasApp.Models"
+             xmlns:conv="clr-namespace:TarefasApp.Converters"
+             x:Class="TarefasApp.Views.MainPage"
+             Title="Minhas Tarefas"
+             BackgroundColor="{StaticResource Background}">
+
+    <Shell.TitleView>
+        <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+            <Label Text="📋" FontSize="24" VerticalOptions="Center" />
+            <Label Text="Minhas Tarefas"
+               FontSize="22"
+               FontAttributes="Bold"
+               TextColor="Black"
+               VerticalOptions="Center" />
+        </HorizontalStackLayout>
+    </Shell.TitleView>
+    
+    <ContentPage.Resources>
+        <conv:PrioridadeParaCorConverter x:Key="PrioridadeParaCor" />
+    </ContentPage.Resources>
+
+    <!-- Botão "Adicionar" na barra de ferramentas da página inicial -->
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Adicionar" Clicked="OnAdicionarClicked" />
+    </ContentPage.ToolbarItems>
+
+    <Grid RowDefinitions="*,Auto" Padding="0">
+
+        <!-- Lista de tarefas usando CollectionView (recomendado no lugar do ListView) -->
+        <CollectionView x:Name="ListaTarefas"
+                         Grid.Row="0"
+                         Margin="12"
+                         SelectionMode="None"
+                         ItemsSource="{Binding Tarefas}"
+                         EmptyView="Nenhuma tarefa cadastrada. Toque em 'Adicionar' para criar a primeira.">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:TarefaItem">
+                    <Frame Margin="0,0,0,10"
+                           Padding="14"
+                           CornerRadius="12"
+                           BorderColor="Transparent"
+                           BackgroundColor="{StaticResource CardBackground}"
+                           HasShadow="True">
+
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnTarefaTapped" CommandParameter="{Binding .}" />
+                        </Frame.GestureRecognizers>
+
+                        <Grid ColumnDefinitions="8,*,Auto" ColumnSpacing="12">
+
+                            <!-- Faixa colorida indicando a prioridade -->
+                            <BoxView Grid.Column="0"
+                                     CornerRadius="4"
+                                     Color="{Binding Prioridade, Converter={StaticResource PrioridadeParaCor}}" />
+
+                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                <Label Text="{Binding Titulo}"
+                                       FontAttributes="Bold"
+                                       FontSize="17"
+                                       TextColor="{StaticResource TextPrimary}" />
+                                <Label Text="{Binding Descricao}"
+                                       FontSize="14"
+                                       LineBreakMode="TailTruncation"
+                                       MaxLines="2"
+                                       TextColor="{StaticResource TextSecondary}" />
+                            </VerticalStackLayout>
+
+                            <Label Grid.Column="2"
+                                   Text="›"
+                                   FontSize="26"
+                                   VerticalOptions="Center"
+                                   TextColor="{StaticResource TextSecondary}" />
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+
+</ContentPage>

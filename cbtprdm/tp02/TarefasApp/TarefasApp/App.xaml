@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TarefasApp.App">
+    <Application.Resources>
+        <ResourceDictionary>
+
+            <Color x:Key="Primary">#512BD4</Color>
+            <Color x:Key="PrimaryDark">#2B0B98</Color>
+            <Color x:Key="Background">#F6F6FA</Color>
+            <Color x:Key="CardBackground">#FFFFFF</Color>
+            <Color x:Key="TextPrimary">#1F1F1F</Color>
+            <Color x:Key="TextSecondary">#6B6B6B</Color>
+            <Color x:Key="PrioridadeAlta">#E53935</Color>
+            <Color x:Key="PrioridadeMedia">#FB8C00</Color>
+            <Color x:Key="PrioridadeBaixa">#43A047</Color>
+
+            <Style TargetType="Shell">
+                <Setter Property="Shell.BackgroundColor" Value="{StaticResource Primary}" />
+                <Setter Property="Shell.ForegroundColor" Value="White" />
+                <Setter Property="Shell.TitleColor" Value="White" />
+                <Setter Property="Shell.NavBarHasShadow" Value="True" />
+            </Style>
+
+            <Style TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="CornerRadius" Value="10" />
+                <Setter Property="Padding" Value="14,10" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+
+            <Style TargetType="Entry">
+                <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+                <Setter Property="PlaceholderColor" Value="{StaticResource TextSecondary}" />
+            </Style>
+
+            <Style TargetType="Editor">
+                <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+                <Setter Property="PlaceholderColor" Value="{StaticResource TextSecondary}" />
+            </Style>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TarefasApp.Views.AdicionarTarefaPage"
+             Title="Nova Tarefa"
+             BackgroundColor="{StaticResource Background}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Cancelar" Clicked="OnCancelarClicked" />
+    </ContentPage.ToolbarItems>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="14">
+
+            <Label Text="Título" FontAttributes="Bold" />
+            <Entry x:Name="EntryTitulo" Placeholder="Título da tarefa" />
+
+            <Label Text="Descrição" FontAttributes="Bold" />
+            <Editor x:Name="EditorDescricao" Placeholder="Descrição da tarefa" HeightRequest="100" AutoSize="TextChanges" />
+
+            <Label Text="Prioridade" FontAttributes="Bold" />
+            <Picker x:Name="PickerPrioridade" Title="Selecione a prioridade">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Baixa</x:String>
+                        <x:String>Media</x:String>
+                        <x:String>Alta</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
+            <Button Text="Adicionar tarefa" Clicked="OnAdicionarClicked" Margin="0,20,0,0" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
