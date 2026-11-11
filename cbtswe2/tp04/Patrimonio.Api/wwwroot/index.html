@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Controle de Patrimônio</title>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 0; background: #f4f6f9; color: #222; }
+  header { background: #1e3a5f; color: #fff; padding: 16px 24px; text-align: center;}
+  main { padding: 24px; max-width: 1200px; margin: auto; }
+  .card { background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,.1); margin-bottom: 24px; text-align:center; }
+  form { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+  label { display: flex; flex-direction: column; font-size: 13px; gap: 4px; }
+  input, select { padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+  .acoes { display: flex; gap: 8px; align-items: end; }
+  button { padding: 8px 14px; border: 0; border-radius: 4px; cursor: pointer; color: #fff; background: #1e3a5f; }
+  button.sec { background: #6b7280; }
+  button.perigo { background: #b91c1c; }
+  button.edit { background: #2563eb; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { padding: 8px; border-bottom: 1px solid #e5e7eb; text-align: left; }
+  th { background: #f9fafb; }
+  .filtros { display: flex; gap: 12px; margin-bottom: 12px; align-items: center; justify-content: center; }
+  .msg { padding: 10px; border-radius: 4px; margin-bottom: 12px; display: none; }
+  .msg.ok { background: #dcfce7; display: block; }
+  .msg.erro { background: #fee2e2; display: block; }
+  .resumo {     font-size: 15px; margin-bottom: 12px; border-top: 1px solid #e5e7eb; padding-top: 15px; margin-top: 15px; }
+</style>
+</head>
+<body>
+<header><h2 style="margin:0">Controle de Patrimônio - Faculdade</h2></header>
+<main>
+
+  <div id="msg" class="msg"></div>
+
+  <div class="card">
+    <h3 id="titulo-form">Cadastrar novo bem</h3>
+    <form id="form">
+      <label>Descrição *<input name="descricao" required maxlength="150"></label>
+      <label>Categoria *
+        <select name="categoria" required>
+          <option value="">Selecione...</option>
+          <option>Informática</option>
+          <option>Mobiliário</option>
+          <option>Equipamentos</option>
+          <option>Laboratório</option>
+          <option>Veículos</option>
+          <option>Outros</option>
+        </select>
+      </label>
+      <label>Local<input name="local" maxlength="100"></label>
+      <label>Data de aquisição *<input type="date" name="dataAquisicao" required></label>
+      <label>Valor de aquisição (R$) *<input type="number" step="0.01" min="0.01" name="valorAquisicao" required></label>
+      <label>Vida útil (anos) *<input type="number" min="1" max="100" name="vidaUtilAnos" value="10" required></label>
+      <label>Status
+        <select name="status">
+          <option>Ativo</option>
+          <option>Em manutenção</option>
+          <option>Baixado</option>
+        </select>
+      </label>
+      <div class="acoes">
+        <button type="submit" id="btn-salvar">Salvar</button>
+        <button type="button" class="sec" id="btn-cancelar" style="display:none">Cancelar edição</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="card">
+    <div class="filtros">
+      <label style="flex-direction:row;align-items:center;gap:8px">Categoria:
+        <select id="filtro-categoria">
+          <option value="">Todas</option>
+          <option>Informática</option>
+          <option>Mobiliário</option>
+          <option>Equipamentos</option>
+          <option>Laboratório</option>
+          <option>Veículos</option>
+          <option>Outros</option>
+        </select>
+      </label>
+      <button class="sec" id="btn-filtrar">Filtrar</button>
+    </div>
+    <div class="resumo" id="resumo"></div>
+    <table>
+      <thead>
+        <tr>
+          <th>Tombamento</th><th>Descrição</th><th>Categoria</th><th>Local</th>
+          <th>Aquisição</th><th>Valor original</th><th>Valor atual</th><th>Status</th><th></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</main>
+
+<script>
+const API = '/api/bens';
+const form = document.getElementById('form');
+const tbody = document.querySelector('tbody');
+const msg = document.getElementById('msg');
+let editandoId = null;
+
+const brl = v => Number(v).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function mostrar(texto, tipo) {
+  msg.textContent = texto;
+  msg.className = 'msg ' + tipo;
+  setTimeout(() => msg.className = 'msg', 4000);
+}
+
+async function carregar() {
+  const cat = document.getElementById('filtro-categoria').value;
+  const url = cat ? `${API}?categoria=${encodeURIComponent(cat)}` : API;
+  const res = await fetch(url);
+  const bens = await res.json();
+
+  tbody.innerHTML = '';
+  let totalOriginal = 0, totalAtual = 0;
+  for (const b of bens) {
+    totalOriginal += b.valorAquisicao;
+    totalAtual += b.valorAtual;
+    tbody.insertAdjacentHTML('beforeend', `
+      <tr>
+        <td>${esc(b.tombamento)}</td>
+        <td>${esc(b.descricao)}</td>
+        <td>${esc(b.categoria)}</td>
+        <td>${esc(b.local)}</td>
+        <td>${esc(b.dataAquisicao)}</td>
+        <td>${brl(b.valorAquisicao)}</td>
+        <td>${brl(b.valorAtual)}</td>
+        <td>${esc(b.status)}</td>
+        <td>
+          <button class="edit" onclick="editar(${b.id})">Editar</button>
+          <button class="perigo" onclick="excluir(${b.id})">Excluir</button>
+        </td>
+      </tr>`);
+  }
+  const quantidade = bens.length === 1 ? 'bem' : 'bens';
+
+  document.getElementById('resumo').innerHTML =
+    `${bens.length} ${quantidade} | Valor original: ${brl(totalOriginal)} | Valor atual estimado: ${brl(totalAtual)}`;
+}
+
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+  const f = new FormData(form);
+  const corpo = {
+    descricao: f.get('descricao'),
+    categoria: f.get('categoria'),
+    local: f.get('local') || '',
+    dataAquisicao: f.get('dataAquisicao'),
+    valorAquisicao: parseFloat(f.get('valorAquisicao')),
+    vidaUtilAnos: parseInt(f.get('vidaUtilAnos'), 10),
+    status: f.get('status')
+  };
+
+  const url = editandoId ? `${API}/${editandoId}` : API;
+  const res = await fetch(url, {
+    method: editandoId ? 'PUT' : 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(corpo)
+  });
+
+  if (res.ok) {
+    mostrar(editandoId ? 'Bem atualizado com sucesso.' : 'Bem cadastrado com sucesso.', 'ok');
+    cancelarEdicao();
+    carregar();
+  } else {
+    const erro = await res.text();
+    mostrar('Erro ao salvar: ' + (erro || res.status), 'erro');
+  }
+});
+
+async function editar(id) {
+  const b = await (await fetch(`${API}/${id}`)).json();
+  editandoId = id;
+  form.descricao.value = b.descricao;
+  form.categoria.value = b.categoria;
+  form.local.value = b.local;
+  form.dataAquisicao.value = b.dataAquisicao;
+  form.valorAquisicao.value = b.valorAquisicao;
+  form.vidaUtilAnos.value = b.vidaUtilAnos;
+  form.status.value = b.status;
+  document.getElementById('titulo-form').textContent = `Editando ${b.tombamento}`;
+  document.getElementById('btn-salvar').textContent = 'Atualizar';
+  document.getElementById('btn-cancelar').style.display = 'inline-block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function cancelarEdicao() {
+  editandoId = null;
+  form.reset();
+  form.vidaUtilAnos.value = 10;
+  document.getElementById('titulo-form').textContent = 'Cadastrar novo bem';
+  document.getElementById('btn-salvar').textContent = 'Salvar';
+  document.getElementById('btn-cancelar').style.display = 'none';
+}
+
+async function excluir(id) {
+  if (!confirm('Confirma a exclusão deste bem?')) return;
+  const res = await fetch(`${API}/${id}`, { method: 'DELETE' });
+  if (res.ok) { mostrar('Bem excluído.', 'ok'); carregar(); }
+  else mostrar('Erro ao excluir.', 'erro');
+}
+
+document.getElementById('btn-cancelar').addEventListener('click', cancelarEdicao);
+document.getElementById('btn-filtrar').addEventListener('click', carregar);
+carregar();
+</script>
+</body>
+</html>
